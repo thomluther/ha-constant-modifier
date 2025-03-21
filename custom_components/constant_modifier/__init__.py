@@ -5,6 +5,7 @@ import importlib
 from homeassistant.core import HomeAssistant
 from homeassistant.config import load_yaml_config_file, YAML_CONFIG_FILE
 from homeassistant.__main__ import get_arguments
+from homeassistant.util.yaml import SECRET_YAML, Secrets, load_yaml
 
 LOGGER = logging.getLogger(__name__)
 DOMAIN = "constant_modifier"
@@ -24,10 +25,13 @@ def get_ha_config():
 
     args = get_arguments()
 
-    hass = HomeAssistant()
-    hass.config.config_dir = os.path.abspath(os.path.join(os.getcwd(), args.config))
+    try:
+        hass = HomeAssistant()
+        hass.config.config_dir = os.path.abspath(os.path.join(os.getcwd(), args.config))
+    except TypeError:
+        hass = HomeAssistant(os.path.abspath(os.path.join(os.getcwd(), args.config)))  # pylint: disable=too-many-function-args
 
-    return load_yaml_config_file(hass.config.path(YAML_CONFIG_FILE))
+    return load_yaml_config_file(hass.config.path(YAML_CONFIG_FILE),Secrets(hass.config.path(hass.config.config_dir)))    
 
 
 def inject(config):
