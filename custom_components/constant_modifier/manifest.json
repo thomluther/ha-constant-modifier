@@ -8,7 +8,7 @@
   "config_flow": false,
   "dependencies": [],
   "documentation": "https://github.com/thomluther/ha-constant-modifier",
-  "integration_type": "helper",
+  "integration_type": "hub",
   "iot_class": "calculated",
   "issue_tracker": "https://github.com/thomluther/ha-constant-modifier/issues",
   "requirements": [],
