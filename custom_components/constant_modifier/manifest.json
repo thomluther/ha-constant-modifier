@@ -1,0 +1,16 @@
+{
+  "domain": "constant_modifier",
+  "name": "HA constant modifier",
+  "after_dependencies": [],
+  "codeowners": [
+    "@thomluther"
+  ],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/thomluther/ha-constant-modifier",
+  "integration_type": "helper",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/thomluther/ha-constant-modifier/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

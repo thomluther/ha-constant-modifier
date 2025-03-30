@@ -1,42 +1,20 @@
-import os
+"""Home Assistant constant modifier."""
+
 import logging
-import importlib
 
 from homeassistant.core import HomeAssistant
-from homeassistant.config import load_yaml_config_file, YAML_CONFIG_FILE
-from homeassistant.__main__ import get_arguments
-from homeassistant.util.yaml import SECRET_YAML, Secrets, load_yaml
+from homeassistant.helpers.importlib import async_import_module
+from homeassistant.helpers.typing import ConfigType
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__package__)
 DOMAIN = "constant_modifier"
 
 
-def setup(hass, config):
-    """
-    No-op. This code runs way too late to do anything useful.
-    """
-    return True
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up the constant_modifier component.
 
-
-def get_ha_config():
-    """
-    Duplicate enough of the HA startup sequence to extract the config *really* early.
-    """
-
-    args = get_arguments()
-
-    try:
-        hass = HomeAssistant()
-        hass.config.config_dir = os.path.abspath(os.path.join(os.getcwd(), args.config))
-    except TypeError:
-        hass = HomeAssistant(os.path.abspath(os.path.join(os.getcwd(), args.config)))  # pylint: disable=too-many-function-args
-
-    return load_yaml_config_file(hass.config.path(YAML_CONFIG_FILE),Secrets(hass.config.path(hass.config.config_dir)))    
-
-
-def inject(config):
-    """
-    Patches constants specified as key/value pairs. For example:
+    Patches constants specified as key/value pairs.
+    For example:
 
     constant_modifier:
       # `MAX_PENDING_MSG` is a top-level constant
@@ -57,15 +35,14 @@ def inject(config):
             replacements = {constant: value}
 
         for path, value in replacements.items():
-            *attrs, attr = path.split('.')
-            obj = importlib.import_module(module_name)
+            *attrs, attr = path.split(".")
+            obj = await async_import_module(hass, module_name)
 
             for a in attrs:
                 obj = getattr(obj, a)
 
             old_value = getattr(obj, attr)
             setattr(obj, attr, value)
-
             LOGGER.warning(
                 "Patched %s, %s = %s (was %s)",
                 module_name,
@@ -74,7 +51,4 @@ def inject(config):
                 old_value,
             )
 
-
-# We are a purposefully a legacy integration so we can run this when we're imported.
-# This allows us to run way before anything else has even had a chance to load.
-inject(get_ha_config())        
+    return True

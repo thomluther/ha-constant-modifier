@@ -1,23 +1,22 @@
 # ha-constant-modifier
-This is a custom component for Home Assistant that can be used to modify, patch or overwrite constants in other components. Authored by [@puddly](https://github.com/puddly)
+This is a custom integration for Home Assistant that can be used to modify, patch or overwrite constants in other components.
 
 ## Installation
 To install, place the constant_modifier in your Home Assistant configuration directory under the custom_components folder
 
 ## Configuration
-Add to `configuration.yaml` any constants you need to modify. For example
+Add to `configuration.yaml` the HA core component modules and any constants you need to modify. For example
 
 ```
 constant_modifier:
-  homeassistant.components.websocket_api.http:
-    MAX_PENDING_MSG: 4096
-    PENDING_MSG_PEAK: 2048
-
   zhaquirks.xiaomi:
-    MotionCluster.reset_s: 5
+    MotionCluster.reset_s: 5 # default 70
+    OccupancyCluster.reset_s: 180 # default 600
 ```
 
-
 ## Note
-This component was created to battle the issue of "Client exceeded max pending messages" when the websocket queue fills in Home Assistant. This seems to be an uncommon issue when using Node-RED and node-red-contrib-home-assistant-websocket in large installations.
+This integration was forked from original component by [@puddly](https://github.com/puddly), which does not seem to be maintained anymore. The main purpose for me to modify it for latest HA versions is to modify ZHA device constants, such as Aqara/Xiaomi occupancy timeout and motion reset timeout, which otherwise cannot be modified easily through the ZHA integration. This is discussed in length in HA community forum post [Xiaomi Human / Body / Motion Sensor - Timeout](https://community.home-assistant.io/t/xiaomi-human-body-motion-sensor-timeout/23398/481)
 
+
+## Credits
+Original version was authored by [@puddly](https://github.com/puddly).
