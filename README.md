@@ -57,12 +57,12 @@ constant_modifier:
 
 ## Note
 
-This integration was forked from [original component](https://github.com/puddly/ha-constant-modifier), which does not seem to be maintained anymore. The main purpose for me to modify it for latest HA versions is to modify ZHA device constants, such as Aqara/Xiaomi occupancy timeout and motion reset timeout, which otherwise cannot be modified easily through the ZHA integration. This is discussed in length in HA community forum post [Xiaomi Human / Body / Motion Sensor - Timeout](https://community.home-assistant.io/t/xiaomi-human-body-motion-sensor-timeout/23398/481)
+This integration was forked from [original component](https://github.com/walthowd/ha-constant-modifier), which does not seem to be maintained anymore. The main purpose for me to modify it for latest HA versions is to modify ZHA device constants, such as Aqara/Xiaomi occupancy timeout and motion reset timeout, which otherwise cannot be modified easily through the ZHA integration. This is discussed in length in HA community forum post [Xiaomi Human / Body / Motion Sensor - Timeout](https://community.home-assistant.io/t/xiaomi-human-body-motion-sensor-timeout/23398/481)
 
 
 ## Attribution
 
-[Original version of ha-constant-modifier](https://github.com/puddly/ha-constant-modifier) was authored by [@puddly](https://github.com/puddly).
+[Original version of ha-constant-modifier](https://github.com/walthowd/ha-constant-modifier) was authored by [@walthowd](https://github.com/walthowd).
 
 
 ## Showing Your Appreciation
