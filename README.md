@@ -9,7 +9,7 @@
 This is a custom integration for Home Assistant that can be used to modify, patch or overwrite constants in other components.
 It cannot be setup via UI, but requires configuration via your configuration.yaml file.
 
-## Installation
+## Installation via HACS (recommended)
 
 Use this button to add the repository to your HACS custom repositories:
 
@@ -24,6 +24,24 @@ Or use following procedure for HACS 2.0 or later to add the custom repository:
 1. Click "Add" and verify that the `HA constant modifier` repository was added to the list.
 1. Close the Popup dialog and verify that `HA constant modifier` integration is now listed in the Home Assistant Community Store.
 1. You cannot install the integration via the Home Assistant UI, but you need to configure it as described below
+
+### Installation Notes
+- It was observed that when adding the repository to HACS via the button, an error may occur although it was added. You may check if you can find HA constant modifier listed as possible HACS integration to be installed. If not, try to add the repository again.
+- After adding the custom repository and installing the integration under HACS, you must restart Home Assistant to pick up the changes in your custom integration folder
+   - HA 2024.02 will report the required restart automatically under problems
+- After HA restart, you can configure the integration through your `configuration.yaml` file.
+
+
+## Manual Installation
+
+1. Using the tool of choice to open the directory (folder) for your HA configuration (where your `configuration.yaml` is located, e.g. `/homeassistant`)
+1. If you do not have a `custom_components` directory (folder) there, you need to create it
+1. In the `custom_components` directory (folder) create a new folder called `constant_modifier`
+1. Download _all_ the files from the `custom_components/constant_modifier/` directory (folder) in this repository
+1. Place the files you downloaded in the new directory (folder) you created
+1. Restart Home Assistant
+1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "HA constant modifier"
+1. Even if listed, you cannot configure the integration via the UI but need to configure it through your `configuration.yaml` file.
 
 
 ## Configuration
