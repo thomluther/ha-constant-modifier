@@ -36,19 +36,33 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
         for path, value in replacements.items():
             *attrs, attr = path.split(".")
-            obj = await async_import_module(hass, module_name)
+            try:
+                obj = await async_import_module(hass, module_name)
+            except ModuleNotFoundError as err:
+                LOGGER.error("Defined module '%s' not found: %s", module_name, err)
+                continue
 
+            # get object before last qualifier
             for a in attrs:
-                obj = getattr(obj, a)
-
-            old_value = getattr(obj, attr)
-            setattr(obj, attr, value)
-            LOGGER.warning(
-                "Patched %s, %s = %s (was %s)",
-                module_name,
-                path,
-                value,
-                old_value,
-            )
+                if not (obj := getattr(obj, a, None)):
+                    LOGGER.error(
+                        "Defined object '%s' of path '%s' not found in module '%s'",
+                        a,
+                        path,
+                        module_name,
+                    )
+                    break
+            else:
+                # only executed if the inner loop did NOT break
+                # change attribute in object
+                if old_value := getattr(obj, attr, None):
+                    setattr(obj, attr, value)
+                    LOGGER.warning(
+                        "Patched %s, %s = %s (was %s)", module_name, path, value, old_value
+                    )
+                else:
+                    LOGGER.error(
+                        "Defined attribute '%s' not found in module '%s'", attr, module_name
+                    )
 
     return True
